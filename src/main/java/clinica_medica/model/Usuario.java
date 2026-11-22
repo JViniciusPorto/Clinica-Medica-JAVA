@@ -10,6 +10,7 @@ public abstract class Usuario {
     private String CPF;
     private String telefone;
     private Genero genero;
+    
     public Usuario(String nomeUsuario, String email, String senha, String CPF, String telefone, Genero genero) {
         validarNomeUsuario(nomeUsuario);
         validarEmail(email);
@@ -18,7 +19,7 @@ public abstract class Usuario {
         validarTelefone(telefone);
         validarGenero(genero);
         
-        this.nomeUsuario = nomeUsuario.trim();
+        this.nomeUsuario = nomeUsuario.trim().replaceAll("\\s+", " ");
         this.email = email.trim();
         this.senha = senha;
         this.CPF = CPF.replaceAll("\\D","");
@@ -52,12 +53,12 @@ public abstract class Usuario {
 
     public void alterarNomeUsuario(String nomeUsuario) {
         validarNomeUsuario(nomeUsuario);
-        this.nomeUsuario = nomeUsuario;
+        this.nomeUsuario = nomeUsuario.trim().replaceAll("\\s+"," ");
     }
 
     public void alterarEmail(String email) {
         validarEmail(email);
-        this.email = email;
+        this.email = email.trim();
     }
 
     public void alterarSenha(String senha) {
@@ -67,7 +68,7 @@ public abstract class Usuario {
 
     public void alterarTelefone(String telefone) {
         validarTelefone(telefone);
-        this.telefone = telefone;
+        this.telefone = telefone.replaceAll("\\D","");
     }
 
     public void alterarGenero(Genero genero){
@@ -76,15 +77,17 @@ public abstract class Usuario {
     }
 
     private void validarNomeUsuario(String nomeUsuario){
-        if(nomeUsuario.isEmpty() || nomeUsuario.isBlank()){
+        if(nomeUsuario == null || nomeUsuario.isBlank()){
             throw new DadosInvalidosException("O nome não pode ser vazio!");
         }
     }
 
     private void validarEmail(String email){
-        if(email.isBlank() || email.isEmpty()){
+        if(email == null || email.isBlank()){
             throw new DadosInvalidosException("O email não pode ser vazio!");
         }
+
+        email = email.trim();
 
         String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 
@@ -94,7 +97,8 @@ public abstract class Usuario {
     }
 
     private void validarSenha(String senha){
-        if(senha==null || senha.length()<8){
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%&*!?_-])[A-Za-z\\d@#$%&*!?_-]{8,}$";
+        if(senha==null || !senha.matches(regex)){
             throw new DadosInvalidosException("A senha deve conter pelo menos 8 caracteres!");
         }
     }
@@ -104,7 +108,7 @@ public abstract class Usuario {
             throw new DadosInvalidosException("CPF não informado!");
         }
 
-        CPF.replaceAll("\\D","");
+        CPF = CPF.replaceAll("\\D","");
 
         if(CPF.length()!=11){
             throw new DadosInvalidosException("O CPF deve ter 11 dígitos!");
