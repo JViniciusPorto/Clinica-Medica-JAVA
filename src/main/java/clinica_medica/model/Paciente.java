@@ -30,13 +30,20 @@ public class Paciente extends Usuario{
     public PlanoSaude getPlanoSaude() {
         return planoSaude;
     }
-
+    //não é retornado uma cópia, pois eu pensei na possibilidade de realizar operações
+    //como adicionar consultas, porém podemos alterar isso, dependendo da implementação
+    //da classe Agenda
     public Prontuario getProntuario() {
         return prontuario;
     }
     
     public int calcularIdade() {
         return Period.between(dataNascimento,LocalDate.now()).getYears();
+    }
+
+    public void alterarDataNascimento(LocalDate dataDeNascimento){
+        validarDataNascimento(dataDeNascimento);
+        this.dataNascimento = dataDeNascimento;
     }
 
     public void alterarPlanoSaude(PlanoSaude planoSaude){
