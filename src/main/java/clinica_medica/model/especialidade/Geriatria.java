@@ -21,7 +21,7 @@ public class Geriatria implements Especialidade{
         
         return valorBase;
     }
-
+    
     @Override
     public void validarPaciente(Paciente paciente) {
         if(paciente == null){
@@ -35,6 +35,9 @@ public class Geriatria implements Especialidade{
 
     @Override
     public boolean aceitaPlano(PlanoSaude planoSaude) {
+        if(planoSaude == null){
+            throw new DadosInvalidosException("Nenhum plano de saúde informado!");
+        }
         return true;
     }
     

@@ -28,7 +28,7 @@ public class Pediatria implements Especialidade {
             throw new DadosInvalidosException("Nenhum paciente informado!");
         }
 
-        if(paciente.calcularIdade()>17){
+        if(paciente.calcularIdade()>=18){
             throw new EspecialidadeErradaException("A pediatria atende somente pacientes com até 17 anos!");
         }
         
@@ -36,6 +36,9 @@ public class Pediatria implements Especialidade {
 
     @Override
     public boolean aceitaPlano(PlanoSaude planoSaude) {
+        if(planoSaude == null){
+            throw new DadosInvalidosException("Nenhum plano de saúde informado!");
+        }
         return true;
     }
 }

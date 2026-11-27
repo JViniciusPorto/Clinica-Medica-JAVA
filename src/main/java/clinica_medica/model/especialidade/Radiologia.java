@@ -30,6 +30,9 @@ public class Radiologia implements Especialidade{
 
     @Override
     public boolean aceitaPlano(PlanoSaude planoSaude) {
+        if(planoSaude == null){
+            throw new DadosInvalidosException("Nenhum plano de saúde informado!");
+        }
         return true;
     }
 }
